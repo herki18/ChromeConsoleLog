@@ -11,5 +11,5 @@
 		}
 	],
 	"description": "Collect JavaScript errors",
-	"web_accessible_resources": [ "error_listener.js" ]
+	"web_accessible_resources": [ "error_listener.js", "log_listener.js" ]
 }

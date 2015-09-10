@@ -1,4 +1,4 @@
-var JSErrorCollector = {
+var JSLogCollector = {
 	getSavedErrors: function() {
 		var savedErrors = [];
 		if (!!localStorage.JSErrors)
@@ -55,39 +55,31 @@ var JSErrorCollector = {
 			}
 		}
 
-		JSErrorCollector.push(error);
-	},
-	consol: function() {
-		var loggs2 = [];
-		var oldf = console.log; 
-		console.log = function()
-		{ 
-			loggs2.push(arguments); 
-			oldf.apply(console, arguments); 
-		};
-		console.log("tere");
+		//JSErrorCollector.push(error);
 	},
 	initialize: function() {
-		window.addEventListener('error', JSErrorCollector.onError, false);
-		
-		var script   = document.createElement("script");
-		script.type  = "text/javascript";
-		script.src = chrome.extension.getURL('log_listener.js');
-		//script.textContent = JSErrorCollector.consol;
-		//script.textContent = 'var loggs = []; var oldf = console.log; console.log = function() { loggs.push(arguments); oldf.apply(console, arguments); }; console.log("tere");';
-		script.async = false;
-		(document.head||document.documentElement).appendChild (script);
-		
-		var s = document.createElement('script');
-		s.src = chrome.extension.getURL('error_listener.js');
-		(document.head||document.documentElement).appendChild(s);
-		s.onload = function() {
-			s.parentNode.removeChild(s);
-			
-		};
+		window.addEventListener('error', this.onError, false);
 	}
 };
 
+JSLogCollector.initialize();
 
-JSErrorCollector.initialize();
+var loggs2 = [];
+var oldf = console.log; 
+console.log = function()
+{ 
+	JSLogCollector.push(arguments);
+	loggs2.push(arguments); 
+	oldf.apply(console, arguments); 
+};
+console.log("tere");
 
+var errors2 = [];
+
+var olde = console.error;
+console.error = function () {
+	errors2.push(arguments);
+	olde.apply(console, arguments);
+}
+
+console.error("tere");
