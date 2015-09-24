@@ -64,22 +64,21 @@ var JSLogCollector = {
 
 JSLogCollector.initialize();
 
-var loggs2 = [];
 var oldf = console.log; 
 console.log = function()
 { 
 	JSLogCollector.push(arguments);
-	loggs2.push(arguments); 
 	oldf.apply(console, arguments); 
 };
-console.log("tere");
 
-var errors2 = [];
+var oldw = console.log;
+console.log = function(){
+	JsLogCollector.push(arguments);
+	oldw.apply(console, arguments);
+}
 
 var olde = console.error;
 console.error = function () {
-	errors2.push(arguments);
+	JSLogCollector.push(arguments);
 	olde.apply(console, arguments);
 }
-
-console.error("tere");
